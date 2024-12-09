@@ -1,0 +1,146 @@
+page {
+	background-color: #f1f1f1;
+	font-size: 27rpx;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	box-sizing: border-box;
+}
+
+////////////////////////////////////////////布局-开始////////////////////////////////////
+// 水平垂直居中
+.snowy-flex-vh-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%
+}
+
+// 垂直居中
+.snowy-flex-v-center {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+// 水平居中
+.snowy-flex-h-center {
+    display: flex;
+    justify-content: center;
+    width: 100%
+}
+// 水平居右
+.snowy-flex-end {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%
+}
+////////////////////////////////////////////布局-结束////////////////////////////////////
+
+////////////////////////////////////////////文字-开始////////////////////////////////////
+// 省略
+.snowy-text-ellipsis {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+// 加粗
+.snowy-text-bold {
+	font-weight: bold;
+}
+
+// 文字居中
+.snowy-text-center {
+    text-align: center;
+    width: 100%
+}
+
+// 文字居右
+.snowy-text-right {
+    text-align: right;
+    width: 100%
+}
+////////////////////////////////////////////文字-结束////////////////////////////////////
+
+///////////////////////////////////////////颜色-开始////////////////////////////////////
+
+.snowy-color-primary {
+	color: $snowy-primary;
+}
+
+.snowy-color-white {
+	color: #ffffff;
+}
+
+.snowy-color-grey {
+	color: #999;
+}
+
+.snowy-color-transparent {
+	background-color: transparent;
+}
+///////////////////////////////////////////颜色-结束////////////////////////////////////
+
+
+////////////////////////////////////////////标题-开始////////////////////////////////////
+.snowy-main-title {
+	font-size: 28rpx;
+}
+
+.snowy-sub-title {
+	@extend .snowy-color-grey;
+	font-size: 26rpx;
+}
+////////////////////////////////////////////标题-结束////////////////////////////////////
+
+// 阴影
+.snowy-shadow {
+	background-color: #ffffff;
+	box-shadow: 0 1rpx 1rpx #ccc;
+	border-radius: 10rpx;
+}
+
+// 九宫格居中
+.snowy-grid-center {
+	@extend .snowy-flex-vh-center;
+    flex: 1; 
+	flex-direction: column;
+}
+
+
+$snowy-left-right: 10rpx;
+
+$snowy-item-margin-bottom: 10rpx;
+
+
+// snwoy-page + snwoy-item + snowy-padding
+.snowy-page {
+	padding: $snowy-left-right;
+}
+
+.snowy-item {
+	margin: 0rpx 0rpx $snowy-item-margin-bottom 0rpx;
+	padding: 2rpx;
+}
+
+// snowy-z-paging-top + snowy-z-paging-item + snowy-padding
+.snowy-z-paging-top {
+	margin: 0 0 $snowy-item-margin-bottom 0;
+}
+
+.snowy-z-paging-item {
+	@extend .snowy-item;
+	margin: 0 $snowy-left-right $snowy-item-margin-bottom $snowy-left-right;
+}
+
+.snowy-padding {
+	padding: 20rpx;
+}
+
+.snowy-hover:hover {
+	box-shadow: 1rpx 2rpx 2rpx $snowy-primary;
+}
+
+.snowy-form {
+	@extend .snowy-shadow;
+	padding: 30rpx;
+}

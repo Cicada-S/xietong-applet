@@ -1,0 +1,16 @@
+{
+    "id": "zy-upgrade",
+    "name": "APP升级，在线升级支持android、ios",
+    "version": "1.0.5",
+    "description": "只需要传递一个升级的url地址就可以了，版本检测，是否显示升级界面，是否强制升级等全部封装在插件内部",
+    "keywords": [
+        "APP在线升级",
+        "APP升级",
+        "ios升级",
+        "android升级",
+        "APP版本检测"
+    ],
+    "dependencies": {
+        "sm-crypto": "^0.3.13"
+    }
+}
