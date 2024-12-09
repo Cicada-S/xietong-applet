@@ -43,9 +43,9 @@
 			return {
 				passwordRule: false,
 				formData: {
-					account: "",
-					password: "",
-					companyName: ""
+					account: "admin",
+					password: "xtcx123456",
+					companyName: "苏州协同创芯数字科技有限公司"
 				}
 			}
 		},
