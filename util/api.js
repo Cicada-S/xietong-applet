@@ -167,7 +167,9 @@ var api = {
 	delTestStepLast: '/bizapp/biz/testStepLast/delete',//删除	
 
 	getTestStepLoopRes: '/bizapp/biz/test/page',//分页
+	// addTestStepLoop: '/bizapp//biz/test/add',//新增
 	addTestStepLoop: '/bizapp/biz/testStepLoop/add',//新增
+	addTestStepLoop2: '/bizapp/biz/test/add',//新增
 	editTestStepLoop: '/bizapp/biz/testStepLoop/edit',//编辑
 	delTestStepLoop: '/bizapp/biz/testStepLoop/delete',//删除	
 

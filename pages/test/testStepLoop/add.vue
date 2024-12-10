@@ -523,9 +523,9 @@ import { nextTick } from "vue"
 				this.wareHouseName = e.name
 			},
 			submit() {
-				let url = this.$api.addInv
+				let url = this.$api.addTestStepLoop2
 				if(this.formData.id){
-					url = this.$api.editInv
+					url = this.$api.addTestStepLoop2
 				}
 				this.$axios.request(url, "POST", this.formData).then((val) => {
 					this.$msg.toastCallback("添加成功",() => {
