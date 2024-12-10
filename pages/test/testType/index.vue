@@ -140,14 +140,6 @@ export default {
       default: "checkbox",
     },
   },
-  watch: {
-    list: {
-      handler(val) {
-        console.log(val)
-      },
-      deep: true,
-    },
-  },
   onLoad() {},
   onShow() {
     uni.$on("refresh", (val) => {
