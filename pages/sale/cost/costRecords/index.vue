@@ -112,6 +112,9 @@
 
       <u-checkbox-group v-else placement="column" @change="changeCheckBox">
         <view class="item" v-for="(item, index) in list" :key="index">
+          <view class="right king-align__center">
+            <u-checkbox :name="item.id"></u-checkbox>
+          </view>
           <u-line margin="20rpx 0px"></u-line>
           <view class="info">
             <view class="king-flex king-flex__column">
