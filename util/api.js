@@ -155,18 +155,18 @@ var api = {
 	editTestFormula: '/bizapp/biz/testFormula/edit',//编辑
 	delTestFormula: '/bizapp/biz/testFormula/delete',//删除	
 
-	getTestStepFirstRes: '/bizapp/biz/test/page',//分页
+	getTestStepFirstRes: '/bizapp/biz/test/page?type=0',//分页
 	addTestStepFirst: '/bizapp/biz/testStepFirst/add',//新增
 	editTestStepFirst: '/bizapp/biz/testStepFirst/edit',//编辑
 	delTestStepFirst: '/bizapp/biz/testStepFirst/delete',//删除	
 
 
-	getTestStepLastRes: '/bizapp/biz/test/page',//分页
+	getTestStepLastRes: '/bizapp/biz/test/page?type=1',//分页
 	addTestStepLast: '/bizapp/biz/testStepLast/add',//新增
 	editTestStepLast: '/bizapp/biz/testStepLast/edit',//编辑
 	delTestStepLast: '/bizapp/biz/testStepLast/delete',//删除	
 
-	getTestStepLoopRes: '/bizapp/biz/test/page',//分页
+	getTestStepLoopRes: '/bizapp/biz/test/page?type=2',//分页
 	// addTestStepLoop: '/bizapp//biz/test/add',//新增
 	addTestStepLoop: '/bizapp/biz/testStepLoop/add',//新增
 	addTestStepLoop2: '/bizapp/biz/test/add',//新增
