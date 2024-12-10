@@ -20,10 +20,10 @@
 					<view class="order-no king-align__center king-flex__between">
 						<view class="left king-align__center">
 							<view class="line"></view>
-							<text>单号：{{item.invCode}}</text>
+							<text>单号：{{item.resourceNo}}</text>
 						</view>
 						<view class="right king-align__center">
-							<u-checkbox :name="item.id" :checked="selectRowKeys.includes(item.id)" />
+							<u-checkbox :name="item.id" :checked="selectRows.includes(item.id)" />
 						</view>
 					</view>
 					<u-line margin="20rpx 0px"></u-line>
@@ -136,7 +136,9 @@
 				formData:{},
 				page: 1,
 				list: [],
-				selectRows: []
+				selectRows: [],
+			
+
 			}
 		},
 		created() {
@@ -203,6 +205,7 @@
 					this.$msg.toast("请选择一条数据")
 					return
 				}
+				console.log(this.selectRows[0])
 				this.$next(`/pages/test/testStepLast/add?result=${this.$utils.encryption(this.selectRows[0])}`)
 				
 			},
