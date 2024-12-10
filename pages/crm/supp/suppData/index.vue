@@ -45,7 +45,7 @@
           <view class="order-no king-align__center king-flex__between">
             <view class="left king-align__center">
               <view class="line"></view>
-              <text>供应商类型：{{ item.name }}</text>
+              <text>供应商类型：{{ item.sortName }}</text>
             </view>
             <view class="right king-align__center">
               <u-radio :name="item.id"></u-radio>
@@ -75,7 +75,7 @@
           <view class="order-no king-align__center king-flex__between">
             <view class="left king-align__center">
               <view class="line"></view>
-              <text>供应商类型：{{ item.name }}</text>
+              <text>供应商类型：{{ item.sortName }}</text>
             </view>
             <view class="right king-align__center">
               <u-checkbox :name="item.id"></u-checkbox>
