@@ -178,7 +178,6 @@ export default {
       this.$emit("change")
     },
     changeCheckBox(e) {
-      console.log(e)
       let arr = new Array()
       e.forEach((item, index) => {
         let idx = this.$utils.findArrIndex(this.list, item)
