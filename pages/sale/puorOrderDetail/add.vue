@@ -11,7 +11,7 @@
         </u-form-item>
         <u-form-item label="项目编号" borderBottom border :required="true">
           <u-input
-            v-model="formData.resourceId"
+            v-model="formData.projectCode"
             placeholder="请填写项目编号"
             border="none"
           ></u-input>
@@ -19,7 +19,7 @@
 
         <u-form-item label="供应商" borderBottom border>
           <u-input
-            v-model="workStepName"
+            v-model="formData.partnersName"
             readonly
             placeholder="请选择供应商"
             border="none"
@@ -37,7 +37,7 @@
 
         <u-form-item label="下单人" borderBottom border :required="true">
           <u-input
-            v-model="userName"
+            v-model="formData.nextPersonName"
             readonly
             placeholder="请选择下单人"
             border="none"
@@ -60,14 +60,14 @@
         <u-form-item label="下单时间" borderBottom border :required="true">
           <u-input
             readonly
-            v-model="formData.startTime"
+            v-model="formData.createTime"
             placeholder="请选择下单时间"
             border="none"
           >
             <view slot="suffix">
               <u-button
                 type="primary"
-                @click="chooseTime('startTime')"
+                @click="chooseTime('createTime')"
                 size="mini"
                 text="请选择"
               ></u-button>
@@ -77,14 +77,14 @@
         <u-form-item label="交货时间" borderBottom border :required="true">
           <u-input
             readonly
-            v-model="formData.endTime"
+            v-model="formData.orderTime"
             placeholder="请选择交货时间"
             border="none"
           >
             <view slot="suffix">
               <u-button
                 type="primary"
-                @click="chooseTime('endTime')"
+                @click="chooseTime('orderTime')"
                 size="mini"
                 text="请选择"
               ></u-button>
@@ -119,10 +119,7 @@
                 <u-th style="width: 13%">备注</u-th>
               </u-tr>
               <u-checkbox-group placement="column" @change="changeCheckBox">
-                <u-tr
-                  v-for="(item, index) in formData.invDetailList"
-                  :key="index"
-                >
+                <u-tr v-for="(item, index) in detailList" :key="index">
                   <u-td style="width: 13%">
                     <u-checkbox
                       :name="item.proId"
@@ -145,7 +142,7 @@
         </u-form-item>
         <u-form-item label="数量" borderBottom border :required="true">
           <u-input
-            v-model="formData.totalNum"
+            v-model="formData.num"
             type="number"
             placeholder="请填写"
             border="none"
@@ -298,6 +295,13 @@ export default {
     suppData,
     proListModal,
   },
+  computed: {
+    detailList() {
+      return this.formData.id
+        ? this.formData.orderDetailList
+        : this.formData.invDetailList
+    },
+  },
   onLoad(options) {
     if (!options.result) {
       this.formData = Object.assign(this.formData, options)
@@ -317,7 +321,7 @@ export default {
   methods: {
     changeWorkStep(e) {
       this.formData.workStepId = e.id
-      this.workStepName = e.sortName
+      this.formData.partnersName = e.sortName
     },
     load() {
       this.formData.startTime = uni.$u.date(
@@ -330,7 +334,7 @@ export default {
       )
       this.sumWorkTime()
       this.getWorkOrder()
-      this.getTaskList()
+      // this.getTaskList()
     },
     getWorkOrder() {
       this.$axios
@@ -370,7 +374,6 @@ export default {
       })
     },
     chooseTime(field) {
-      console.log(field)
       this.timeField = field
       this.show = true
     },
@@ -410,12 +413,18 @@ export default {
     },
     changeuser(e) {
       this.formData.nextPerson = e.id
-      this.userName = e.name
+      this.formData.nextPersonName = e.name
     },
     submit() {
       const url = this.formData.id
         ? this.$api.editPuorOrderDetail
         : this.$api.addPuorOrderDetail
+
+      if (this.formData.id) {
+        this.formData.orderDetailList = this.detailList
+      } else {
+        this.formData.invDetailList = this.detailList
+      }
 
       this.$axios
         .request(url, "POST", { ...this.formData, type: 1 })

@@ -117,7 +117,7 @@
               </u-tr>
               <u-checkbox-group placement="column" @change="changeCheckBox">
                 <u-tr
-                  v-for="(item, index) in formData.invDetailList"
+                  v-for="(item, index) in detailList"
                   :key="index"
                 >
                   <u-td style="width: 13%">
@@ -306,6 +306,13 @@ export default {
     userModal,
     proListModal,
   },
+  computed: {
+    detailList() {
+      return this.formData.id
+        ? this.formData.orderDetailList
+        : this.formData.invDetailList
+    },
+  },
   onLoad(options) {
     if (options.result) {
       this.formData = this.$utils.decrypt(options.result)
@@ -338,7 +345,11 @@ export default {
         ? this.$api.editSaleOrderDetail
         : this.$api.addSaleOrderDetail
 
-      if (this.formData.id) this.formData.orderDetailList = []
+      if (this.formData.id) {
+        this.formData.orderDetailList = this.detailList
+      } else {
+        this.formData.invDetailList = this.detailList
+      }
 
       this.$axios
         .request(url, "POST", { ...this.formData, type: 0 })

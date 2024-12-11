@@ -328,12 +328,14 @@ export default {
           size: 20,
           sortField: "id",
           sortOrder: "descend",
+          type: 1
         },
         this.formData
       )
       this.$axios
         .request(this.$api.getPuorOrderDetailRes, "GET", params)
         .then((val) => {
+          console.log(val)
           uni.stopPullDownRefresh()
           this.list =
             this.page == 1

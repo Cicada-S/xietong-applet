@@ -160,7 +160,7 @@
                   <u-td style="width: 20%"
                     ><input
                       :disabled="true"
-                      v-model="item.BadItemName"
+                      v-model="item.badName"
                       type="text"
                   /></u-td>
                   <u-td style="width: 20%"
