@@ -71,8 +71,8 @@ export default {
   methods: {
     submit() {
       const url = this.formData.id
-        ? this.$api.ediTtestType
-        : this.$api.addTestType
+        ? this.$api.editCostType
+        : this.$api.addCostType
 
       if (this.formData.id) this.formData.name = this.formData.typeName
       this.$axios.request(url, "POST", this.formData).then((val) => {
