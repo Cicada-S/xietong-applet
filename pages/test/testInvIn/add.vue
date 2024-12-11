@@ -794,9 +794,9 @@ export default {
       this.wareHouseName = e.name;
     },
     submit() {
-      let url = this.$api.addTestInv;
+      let url = this.$api.addTestInvIn;
       if (this.formData.id) {
-        url = this.$api.editTestInv;
+        url = this.$api.editTestInvIn;
       }
       this.formData.type = 4;
       this.$axios.request(url, "POST", this.formData).then((val) => {
