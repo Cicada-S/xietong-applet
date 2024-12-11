@@ -197,7 +197,7 @@
 					<text>销售订单</text>
 				</view>
 				<view v-if="$utils.hasMenu('/biz/puorOrderDetail')" class="item king-align__center king-flex__column"
-					@click="$next(`/pages/sale/saleOrderDetail/index?type=1`)">
+					@click="$next(`/pages/sale/puorOrderDetail/index?type=1`)">
 					<image src="@/static/xiaoshou/7.png"></image>
 					<text>采购订单</text>
 				</view>
