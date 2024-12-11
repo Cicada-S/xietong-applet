@@ -155,6 +155,8 @@ var api = {
 	editTestFormula: '/bizapp/biz/testFormula/edit',//编辑
 	delTestFormula: '/bizapp/biz/testFormula/delete',//删除	
 
+
+	// 首检
 	getTestStepFirstRes: '/bizapp/biz/test/page?type=0',//分页
 	addTestStepFirst: '/bizapp/biz/test/add',//新增
 	editTestStepFirst: '/bizapp/biz/test/edit',//编辑
@@ -162,27 +164,27 @@ var api = {
 	// editTestStepFirst: '/bizapp/biz/testStepFirst/edit',//编辑
 	delTestStepFirst: '/bizapp/biz/testStepFirst/delete',//删除	
 
-
+	// 末检
 	getTestStepLastRes: '/bizapp/biz/test/page?type=1',//分页
-	addTestStepLast: '/bizapp/biz/testStepLast/add',//新增
-	editTestStepLast: '/bizapp/biz/testStepLast/edit',//编辑
+	addTestStepLast: '/bizapp/biz/test/add',//新增
+	editTestStepLast: '/bizapp/biz/test/edit',//编辑
 	delTestStepLast: '/bizapp/biz/testStepLast/delete',//删除	
 
+	// 循检
 	getTestStepLoopRes: '/bizapp/biz/test/page?type=2',//分页
 	// addTestStepLoop: '/bizapp//biz/test/add',//新增
-	addTestStepLoop: '/bizapp/biz/testStepLoop/add',//新增
-	addTestStepLoop2: '/bizapp/biz/test/add',//新增
-	editTestStepLoop: '/bizapp/biz/testStepLoop/edit',//编辑
+	addTestStepLoop: '/bizapp/biz/test/add',//新增
+	editTestStepLoop: '/bizapp/biz/test/edit',//编辑
 	delTestStepLoop: '/bizapp/biz/testStepLoop/delete',//删除	
 
-	getTestInvOutRes: '/bizapp/biz/test/page',//分页
-	addTestInvOut: '/bizapp/biz/pro/page',//新增
-	editTestInvOut: '/bizapp/biz/testInvOut/edit',//编辑
+	getTestInvOutRes: '/bizapp/biz/test/page?type=3',//分页
+	addTestInvOut: '/bizapp/biz/test/add',//新增
+	editTestInvOut: '/bizapp/biz/test/edit',//编辑
 	delTestInvOut: '/bizapp/biz/testInvOut/delete',//删除	
 
-	getTestInvInRes: '/bizapp/biz/test/page',//分页
-	addTestInvIn: '/bizapp/biz/testInvIn/add',//新增
-	editTestInvIn: '/bizapp/biz/testInvIn/edit',//编辑
+	getTestInvInRes: '/bizapp/biz/test/page?type=4',//分页
+	addTestInvIn: '/bizapp/biz/test/add',//新增
+	editTestInvIn: '/bizapp/biz/test/edit',//编辑
 	delTestInvIn: '/bizapp/biz/testInvIn/delete',//删除	
 
 	getSaleOrderDetailRes: '/bizapp/biz/orderDetail/page',//分页

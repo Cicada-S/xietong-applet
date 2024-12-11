@@ -79,7 +79,7 @@
 
         <u-form-item label="送检数量" borderBottom border>
           <u-input
-            v-model="formData.reportNum"
+            v-model="formData.submissionNum"
             placeholder="请填写"
             border="none"
           ></u-input>
@@ -116,8 +116,7 @@
             </template>
           </u-input>
         </u-form-item>
-
-        <u-form-item label="不良信息" borderBottom border>
+        <u-form-item label="不良信息" borderBottom border :required="true">
           <view class="king-flex king-flex__column">
             <view
               class="search-item king-flex"
@@ -127,7 +126,7 @@
                 type="primary"
                 size="small"
                 @click="() => (showBadItem = true)"
-                text="批量新增"
+                text="新增"
               ></u-button>
               <u-button
                 type="error"
@@ -148,11 +147,14 @@
                 <u-th style="width: 13%">备注</u-th>
               </u-tr>
               <u-checkbox-group placement="column" @change="changeCheckBox">
-                <u-tr v-for="(item, index) in formData.index" :key="index">
+                <u-tr
+                  v-for="(item, index) in formData.invDetailList"
+                  :key="index"
+                >
                   <u-td style="width: 13%">
                     <u-checkbox
-                      :name="item.BadItem"
-                      :checked="selectRowKeys.includes(item.BadItem)"
+                      :name="item.BadItemId"
+                      :checked="selectRowKeys.includes(item.BadItemId)"
                     ></u-checkbox>
                   </u-td>
                   <u-td style="width: 20%"
@@ -356,6 +358,7 @@
       </view>
     </u-popup>
 
+    <!-- 不良 -->
     <u-popup
       :show="showBadItem"
       mode="bottom"
@@ -534,8 +537,11 @@ export default {
     chooseWorkTask() {
       if (this.$refs.workTaskModalRef.selectRows.length > 0) {
         let task = this.$refs.workTaskModalRef.selectRows[0];
+        console.log(task, "123");
         this.formData.workOrderId = task.workOrderId;
         this.formData.taskId = task.id;
+        this.formData.proId = task.proId;
+        this.formData.testFormula = task.testFormulaId;
         this.load();
       }
       this.showWorkTaskModal = false;
@@ -549,36 +555,39 @@ export default {
       });
       this.formData.productionUserText = nameArr.join(",");
       this.formData.productionUser = ids.join(",");
+
       this.showUserModal = false;
     },
-    submit() {
-      if (this.formData.reportNum == 0) {
-        this.$msg.toast("请填写报工数量或不良品数量");
-        return;
-      }
-      this.formData.badDetailList = this.mulBadItem;
-      this.formData.extJson = JSON.stringify(
-        this.$refs.dynamicRef.extJson,
-        true
-      );
-      this.$axios
-        .request(this.$api.workReportAdd, "POST", this.formData)
-        .then((val) => {
-          this.$msg.toastCallback("报工成功", () => {
-            var obj = {
-              goodNum: 0,
-              badNum: 0,
-              reportNum: 0,
-              extJson: {},
-            };
-            this.formData = Object.assign(this.formData, obj);
+    // submit() {
+    //   if (this.formData.submissionNum == 0) {
+    //     this.$msg.toast("请填写报工数量或不良品数量");
+    //     return;
+    //   }
+    //   this.formData.badDetailList = this.mulBadItem;
+    //   this.formData.extJson = JSON.stringify(
+    //     this.$refs.dynamicRef.extJson,
+    //     true
+    //   );
 
-            this.mulBadItem.forEach((item, index) => {
-              item.num = 0;
-            });
-          });
-        });
-    },
+    //   console.log(this.formData);
+    //   this.$axios
+    //     .request(this.$api.workReportAdd, "POST", this.formData)
+    //     .then((val) => {
+    //       this.$msg.toastCallback("报工成功", () => {
+    //         var obj = {
+    //           goodNum: 0,
+    //           badNum: 0,
+    //           submissionNum: 0,
+    //           extJson: {},
+    //         };
+    //         this.formData = Object.assign(this.formData, obj);
+
+    //         this.mulBadItem.forEach((item, index) => {
+    //           item.num = 0;
+    //         });
+    //       });
+    //     });
+    // },
     //获取工单信息
     getWorkOrder() {
       this.$axios
@@ -588,10 +597,11 @@ export default {
         .then((val) => {
           this.workOrder = val.data;
           this.formData.proPlanCode = val.data.proPlanCode;
+          this.formData.resourceNo = val.data.proPlanCode;
           this.formData.mulBadItem = val.data.mulBadItem;
           this.formData.proImage = val.data.proImage;
           this.formData.goodNum = val.data.plaNum;
-          this.formData.reportNum = val.data.plaNum;
+          this.formData.submissionNum = val.data.plaNum;
         });
     },
 
@@ -602,7 +612,7 @@ export default {
       this.showTask = false;
     },
     change() {
-      this.formData.reportNum =
+      this.formData.submissionNum =
         parseInt(this.formData.goodNum || 0) +
         parseInt(this.formData.badNum || 0);
     },
@@ -617,7 +627,7 @@ export default {
     },
     changeTask(e) {
       let value = e.detail.value;
-      console.log(value, this.taskList[value]);
+      console.log(value, "value", this.taskList, this.taskList[value]);
       if (this.taskList[value]) {
         let task = this.taskList[value];
         this.formData.taskId = task.id;
@@ -670,7 +680,7 @@ export default {
             item.title = `${item.workStepName}【顺序：${item.sortNum}】【${statusText}】`;
           });
           this.taskList = val.data;
-          console.log(val.data,this.formData.taskId, "123");
+
           //处理选择逻辑
           if (this.formData.taskId) {
             let index = this.$utils.findArrIndex(
@@ -694,7 +704,7 @@ export default {
     chooseBadItem() {
       this.showBadItem = false;
       let arr = new Array();
-      this.$refs.proList.selectRows.forEach((item, index) => {
+      this.$refs.mulBadItem.selectRows.forEach((item, index) => {
         arr.push({
           BadItemName: item.name,
           BadItem: item.id,
@@ -770,10 +780,11 @@ export default {
       this.wareHouseName = e.name;
     },
     submit() {
-      let url = this.$api.addInv;
+      let url = this.$api.addTestStepLast;
       if (this.formData.id) {
-        url = this.$api.editInv;
+        url = this.$api.editTestStepLast;
       }
+      this.formData.type = 1;
       this.$axios.request(url, "POST", this.formData).then((val) => {
         this.$msg.toastCallback("添加成功", () => {
           uni.$emit("refresh");
