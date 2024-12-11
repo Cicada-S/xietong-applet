@@ -147,21 +147,15 @@
                 <u-th style="width: 13%">备注</u-th>
               </u-tr>
               <u-checkbox-group placement="column" @change="changeCheckBox">
-                <u-tr
-                  v-for="(item, index) in formData.invDetailList"
-                  :key="index"
-                >
+                <u-tr v-for="(item, index) in formData.badList" :key="index">
                   <u-td style="width: 13%">
                     <u-checkbox
-                      :name="item.BadItemId"
-                      :checked="selectRowKeys.includes(item.BadItemId)"
+                      :name="item.BadItem"
+                      :checked="selectRowKeys.includes(item.BadItem)"
                     ></u-checkbox>
                   </u-td>
                   <u-td style="width: 20%"
-                    ><input
-                      :disabled="true"
-                      v-model="item.BadItemName"
-                      type="text"
+                    ><input :disabled="true" v-model="item.badName" type="text"
                   /></u-td>
                   <u-td style="width: 20%"
                     ><input v-model="item.badreason" type="text"
@@ -534,6 +528,14 @@ export default {
         this.formData.workTime = Math.floor((end - start) / 60000);
       }
     },
+    // 选择方案
+    choosetestFormula() {
+      if (this.$refs.testFormula.selectRows.length > 0) {
+        let item = this.$refs.testFormula.selectRows[0];
+        this.formData.testFormula = item.id;
+      }
+      this.showtestFormula = false;
+    },
     chooseWorkTask() {
       if (this.$refs.workTaskModalRef.selectRows.length > 0) {
         let task = this.$refs.workTaskModalRef.selectRows[0];
@@ -705,31 +707,37 @@ export default {
       this.showBadItem = false;
       let arr = new Array();
       this.$refs.mulBadItem.selectRows.forEach((item, index) => {
+        console.log(item);
         arr.push({
-          BadItemName: item.name,
+          badName: item.name,
           BadItem: item.id,
           badNum: 1,
           remark: "",
           badreason: "",
           badgrade: "",
           badway: "",
+          key: item.id,
         });
       });
-      this.formData.index = arr;
+      this.$set(this.formData, "badList", arr);
+      // this.formData.badList = arr;
     },
     del() {
+      console.log(this.selectRowKeys, this.formData.badList);
       if (this.selectRowKeys.length == 0) {
         this.$msg.toast("请选择");
         return;
       }
       this.selectRowKeys.forEach((item, index) => {
-        let idx = this.formData.index.findIndex((pro) => {
+        console.log(item, index, "123");
+        let idx = this.formData.badList.findIndex((pro) => {
           if (pro.BadItem == item) {
             return true;
           }
         });
-
-        this.formData.index.splice(idx, 1);
+        console.log(idx);
+        this.formData.badList.splice(idx, 1);
+        console.log(this.formData.badList);
       });
     },
     choosePro() {
@@ -745,23 +753,9 @@ export default {
       });
       this.formData.invDetailList = arr;
     },
-    del() {
-      if (this.selectRowKeys.length == 0) {
-        this.$msg.toast("请选择");
-        return;
-      }
-      this.selectRowKeys.forEach((item, index) => {
-        let idx = this.formData.invDetailList.findIndex((pro) => {
-          if (pro.proId == item) {
-            return true;
-          }
-        });
-
-        this.formData.invDetailList.splice(idx, 1);
-      });
-    },
     changeCheckBox(e) {
       this.selectRowKeys = e;
+      console.log(this.selectRowKeys, "12");
     },
     close() {
       this.wareHouseShow = false;

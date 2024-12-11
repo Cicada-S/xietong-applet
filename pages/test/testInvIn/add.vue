@@ -148,13 +148,13 @@
               </u-tr>
               <u-checkbox-group placement="column" @change="changeCheckBox">
                 <u-tr
-                  v-for="(item, index) in formData.invDetailList"
+                  v-for="(item, index) in formData.badList"
                   :key="index"
                 >
                   <u-td style="width: 13%">
                     <u-checkbox
-                      :name="item.BadItemId"
-                      :checked="selectRowKeys.includes(item.BadItemId)"
+                      :name="item.BadItem"
+                      :checked="selectRowKeys.includes(item.BadItem)"
                     ></u-checkbox>
                   </u-td>
                   <u-td style="width: 20%"
@@ -486,6 +486,14 @@ export default {
     });
   },
   methods: {
+      // 选择方案
+      choosetestFormula() {
+      if (this.$refs.testFormula.selectRows.length > 0) {
+        let item = this.$refs.testFormula.selectRows[0];
+        this.formData.testFormula = item.id;
+      }
+      this.showtestFormula = false;
+    },
     scan() {
       uni.scanCode({
         scanType: ["qrCode", "barCode"],
@@ -705,33 +713,36 @@ export default {
       this.showBadItem = false;
       let arr = new Array();
       this.$refs.mulBadItem.selectRows.forEach((item, index) => {
+        console.log(item);
         arr.push({
-          BadItemName: item.name,
+          badName: item.name,
           BadItem: item.id,
           badNum: 1,
           remark: "",
           badreason: "",
           badgrade: "",
           badway: "",
+          key: item.id,
         });
       });
-      this.formData.index = arr;
+      this.$set(this.formData, "badList", arr);
+      // this.formData.badList = arr;
     },
-    del() {
-      if (this.selectRowKeys.length == 0) {
-        this.$msg.toast("请选择");
-        return;
-      }
-      this.selectRowKeys.forEach((item, index) => {
-        let idx = this.formData.index.findIndex((pro) => {
-          if (pro.BadItem == item) {
-            return true;
-          }
-        });
+    // del() {
+    //   if (this.selectRowKeys.length == 0) {
+    //     this.$msg.toast("请选择");
+    //     return;
+    //   }
+    //   this.selectRowKeys.forEach((item, index) => {
+    //     let idx = this.formData.index.findIndex((pro) => {
+    //       if (pro.BadItem == item) {
+    //         return true;
+    //       }
+    //     });
 
-        this.formData.index.splice(idx, 1);
-      });
-    },
+    //     this.formData.index.splice(idx, 1);
+    //   });
+    // },
     choosePro() {
       this.showProModal = false;
       let arr = new Array();
@@ -746,18 +757,21 @@ export default {
       this.formData.invDetailList = arr;
     },
     del() {
+      console.log(this.selectRowKeys, this.formData.badList);
       if (this.selectRowKeys.length == 0) {
         this.$msg.toast("请选择");
         return;
       }
       this.selectRowKeys.forEach((item, index) => {
-        let idx = this.formData.invDetailList.findIndex((pro) => {
-          if (pro.proId == item) {
+        console.log(item, index, "123");
+        let idx = this.formData.badList.findIndex((pro) => {
+          if (pro.BadItem == item) {
             return true;
           }
         });
-
-        this.formData.invDetailList.splice(idx, 1);
+        console.log(idx);
+        this.formData.badList.splice(idx, 1);
+        console.log(this.formData.badList);
       });
     },
     changeCheckBox(e) {
