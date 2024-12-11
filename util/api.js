@@ -156,8 +156,10 @@ var api = {
 	delTestFormula: '/bizapp/biz/testFormula/delete',//删除	
 
 	getTestStepFirstRes: '/bizapp/biz/test/page?type=0',//分页
-	addTestStepFirst: '/bizapp/biz/testStepFirst/add',//新增
-	editTestStepFirst: '/bizapp/biz/testStepFirst/edit',//编辑
+	addTestStepFirst: '/bizapp/biz/test/add',//新增
+	editTestStepFirst: '/bizapp/biz/test/edit',//编辑
+	// addTestStepFirst: '/bizapp/biz/testStepFirst/add',//新增
+	// editTestStepFirst: '/bizapp/biz/testStepFirst/edit',//编辑
 	delTestStepFirst: '/bizapp/biz/testStepFirst/delete',//删除	
 
 
