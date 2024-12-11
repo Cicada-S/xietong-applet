@@ -248,14 +248,6 @@ export default {
       selectRowKeys: [],
     }
   },
-  // watch() {
-  // 	selectRowKeys: {
-  // 		handler: (val) =>{
-  // 			console.log(val)
-  // 		},
-  // 		deep: true,
-  // 	}
-  // },
   created() {
     this.getSaleOrderDetailRes()
   },
@@ -264,6 +256,13 @@ export default {
       type: String,
       default: "checkbox",
     },
+  },
+  onLoad(options) {
+    if (options.type) this.type = options.type
+
+    uni.setNavigationBarTitle({
+      title: this.type === 0 ? "销售订单" : "采购订单",
+    })
   },
   onShow() {
     uni.$on("refresh", (val) => {

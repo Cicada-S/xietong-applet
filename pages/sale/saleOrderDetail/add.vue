@@ -343,9 +343,6 @@ export default {
 
       const webParams = {
         type: 0,
-        totalPrice: 0,
-        totalNum: 1,
-        partnersId: "1859929816301035521",
         extJson: "{}",
       }
 
@@ -413,18 +410,12 @@ export default {
       }
     },
     choosePro() {
-      console.log("choosePro")
       this.showProModal = false
-      let arr = new Array()
       this.$refs.proList.selectRows.forEach((item, index) => {
-        arr.push({
-          proName: item.name,
-          proId: item.id,
-          num: 1,
-          remark: "",
-        })
+        item.proName = item.name
+        item.proId = item.id
       })
-      this.formData.orderDetailList = arr
+      this.formData.orderDetailList = this.$refs.proList.selectRows
     },
     del() {
       if (this.selectRowKeys.length == 0) {
@@ -448,6 +439,7 @@ export default {
       const { selectRows } = this.$refs.partnersNameModalRef
       if (selectRows.length > 0) {
         const names = selectRows.map((item) => item.sortName)
+        this.formData.partnersId = selectRows[0].id
         this.formData.partnersName = names.join(",")
       } else {
         this.formData.partnersName = ""
