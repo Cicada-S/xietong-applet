@@ -257,13 +257,13 @@ export default {
       default: "checkbox",
     },
   },
-  onLoad(options) {
+  /* onLoad(options) {
     if (options.type) this.type = options.type
 
     uni.setNavigationBarTitle({
       title: this.type === 0 ? "销售订单" : "采购订单",
     })
-  },
+  }, */
   onShow() {
     uni.$on("refresh", (val) => {
       this.refresh()
@@ -377,8 +377,9 @@ export default {
         {
           current: this.page,
           size: 20,
-          sortField: "id",
-          sortOrder: "descend",
+          // sortField: "id",
+          // sortOrder: "descend",
+          type: 0,
         },
         this.formData
       )

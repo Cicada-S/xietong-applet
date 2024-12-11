@@ -117,7 +117,7 @@
               </u-tr>
               <u-checkbox-group placement="column" @change="changeCheckBox">
                 <u-tr
-                  v-for="(item, index) in formData.orderDetailList"
+                  v-for="(item, index) in formData.invDetailList"
                   :key="index"
                 >
                   <u-td style="width: 13%">
@@ -286,7 +286,7 @@ export default {
   data() {
     return {
       formData: {
-        orderDetailList: [],
+        invDetailList: [],
       },
       type: 0,
       id: null,
@@ -307,26 +307,23 @@ export default {
     proListModal,
   },
   onLoad(options) {
-    this.id = this.$utils.decrypt(options.result).id
+    if (options.result) {
+      this.formData = this.$utils.decrypt(options.result)
+      this.formData.code = this.formData.orderCode
+      this.load()
+    }
 
-    if (this.id)
-      this.$axios
-        .request(this.$api.getSaleOrderDetail, "GET", { id: this.id })
-        .then((val) => {
-          console.log("获取数据详情", val)
-          // this.dynamicList = val.data
-        })
     uni.setNavigationBarTitle({
-      title: `${this.id ? "编辑" : "新增"}${this.type}`,
+      title: `${this.formData?.id ? "编辑" : "新增"}${this.type}`,
     })
   },
   methods: {
     setNavigationTitle() {
       let title = ""
       if (this.type === 0) {
-        title = `${this.id ? "编辑" : "新增"}销售订单`
+        title = `${this.formData?.id ? "编辑" : "新增"}销售订单`
       } else if (this.type === 1) {
-        title = `${this.id ? "编辑" : "新增"}采购订单`
+        title = `${this.formData?.id ? "编辑" : "新增"}采购订单`
       }
       uni.setNavigationBarTitle({
         title,
@@ -341,49 +338,28 @@ export default {
         ? this.$api.editSaleOrderDetail
         : this.$api.addSaleOrderDetail
 
-      const webParams = {
-        type: 0,
-        extJson: "{}",
-      }
+      if (this.formData.id) this.formData.orderDetailList = []
 
-      const params = Object.assign(webParams, this.formData)
-
-      this.$axios.request(url, "POST", params).then((val) => {
-        this.$msg.toastCallback("添加成功", () => {
-          uni.$emit("refresh")
-          this.$nextTick(() => {
-            uni.navigateBack()
+      this.$axios
+        .request(url, "POST", { ...this.formData, type: 0 })
+        .then((val) => {
+          this.$msg.toastCallback("添加成功", () => {
+            uni.$emit("refresh")
+            this.$nextTick(() => {
+              uni.navigateBack()
+            })
           })
         })
-      })
     },
     load() {
       this.$axios
-        .request(this.$api.getWorkOrder, "GET", {
-          id: this.formData.workOrderId,
+        .request(this.$api.getSaleOrderDetail, "GET", {
+          id: this.formData.orderId,
         })
         .then((val) => {
-          let params = {
-            goodNum: 0,
-            reportNum: 0,
-            badNum: 0,
-          }
-          this.formData = Object.assign(params, {
-            workOrderId: val.data.id,
-            proId: val.data.proId,
-            proPlanCode: val.data.proPlanCode,
-            proName: val.data.proName,
-            proCode: val.data.proCode,
-            proImage: val.data.proImage,
-            workRouteName: val.data.workRouteName,
-            orderTime: uni.$u.date(new Date().getTime(), "yyyy-mm-dd 08:30:00"),
-            deliveryTime: uni.$u.date(
-              new Date().getTime(),
-              "yyyy-mm-dd 17:30:00"
-            ),
-          })
+          this.formData = val.data
           this.sumWorkTime()
-          this.listByWorkOrderIdOrAllStep(val.data.id)
+          // this.listByWorkOrderIdOrAllStep(val.data.id)
         })
     },
     chooseTime(field) {
@@ -415,7 +391,7 @@ export default {
         item.proName = item.name
         item.proId = item.id
       })
-      this.formData.orderDetailList = this.$refs.proList.selectRows
+      this.formData.invDetailList = this.$refs.proList.selectRows
     },
     del() {
       if (this.selectRowKeys.length == 0) {
@@ -423,13 +399,13 @@ export default {
         return
       }
       this.selectRowKeys.forEach((item, index) => {
-        let idx = this.formData.orderDetailList.findIndex((pro) => {
+        let idx = this.formData.invDetailList.findIndex((pro) => {
           if (pro.proId == item) {
             return true
           }
         })
 
-        this.formData.orderDetailList.splice(idx, 1)
+        this.formData.invDetailList.splice(idx, 1)
       })
     },
     changeCheckBox(e) {

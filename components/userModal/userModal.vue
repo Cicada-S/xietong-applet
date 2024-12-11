@@ -102,6 +102,7 @@
 					arr.push(this.list[idx])
 				})
 				this.selectRows = arr
+				this.$emit("change", arr[0])
 			},
 			close() {
 				this.$emit("close")
